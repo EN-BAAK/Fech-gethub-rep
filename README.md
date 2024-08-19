@@ -22,5 +22,3 @@ This project, inspired by Elzero Web School, is a simple web application that al
 
 ## Credits
 - Design and code inspired by Elzero Web School (copyright)
-
-Feel free to contribute or modify this project as needed. Happy coding! 🚀
