@@ -11,7 +11,7 @@ This project, inspired by Elzero Web School, is a simple web application that al
 - Search for GitHub repositories by name
 - View repository name, description, and number of stars
 - Visit the repository
-- History of searched GitHub accounts
+- History of searched GitHub accounts with number of it's repos
 - View all repositories of a selected account
 
 ## Usage
