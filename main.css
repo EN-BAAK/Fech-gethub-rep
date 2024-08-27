@@ -63,7 +63,7 @@ body {
     flex: 1;
     overflow-y: auto;
 }
-.saved-container span {
+.saved-container .saved-repo {
     background-color: #f6f6f6;
     padding: 15px 20px;
     display: block;
@@ -76,8 +76,19 @@ body {
     -o-transition: 0.3s;
     cursor: pointer;
 }
-.saved-container span:hover {
+.saved-container .saved-repo:hover {
     background-color: #e7e7e1e7;
+}
+.saved-container .saved-repo-no {
+    background-color: #009688;
+    padding: 4px 12px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    float: right;
+    color: #f6f6f6;
 }
 .repos-container .get-repos {
     background-color: #f6f6f6;

@@ -14,7 +14,7 @@ getButton.onclick = function () {
 
 document.addEventListener("click", (e) => {
     if (e.target.classList.contains("saved-repo")) {
-        theInput.value = e.target.innerHTML;
+        theInput.value = e.target.getAttribute("name");
 
         getButton.click();
     }
@@ -32,7 +32,7 @@ function getRepos() {
         getButton.innerHTML = "Loading...";
         getButton.classList.add("loading");
         fetch(`https://api.github.com/users/${theInput.value}/repos`)
-            .then((reponse) => reponse.json())
+            .then((response) => response.json())
 
             .then((data) => {
                 reposData.innerHTML = "";
@@ -84,41 +84,52 @@ function getRepos() {
                 });
 
                 if (isExistData) {
-                    let data = localStorage.getItem("github-repo") || [];
+                    let savedRepo = localStorage.getItem("github-repo") || [];
 
-                    if (data.length > 0) {
-                        data = JSON.parse(data);
+                    if (savedRepo.length > 0) {
+                        savedRepo = JSON.parse(savedRepo);
                     }
 
                     let sameData = false;
 
-                    for (i of data) {
-                        console.log(i);
-                        if (i === theInput.value) {
+                    for (i in savedRepo) {
+                        if (savedRepo[i].name === theInput.value) {
                             sameData = true;
+                            savedRepo[i].no = data.length;
                             break;
                         }
                     }
 
                     if (!sameData) {
                         let savedUrl = document.createElement("span");
+                        let savedRepoNo = document.createElement("span");
 
                         let textSavedUrl = document.createTextNode(
                             theInput.value
                         );
+                        let textSavedRepoNo = document.createTextNode(
+                            data.length
+                        );
 
                         savedUrl.appendChild(textSavedUrl);
+                        savedRepoNo.appendChild(textSavedRepoNo);
 
                         savedUrl.classList.add("saved-repo");
+                        savedRepoNo.classList.add("saved-repo-no");
 
+                        savedUrl.setAttribute("name", repo.name);
+
+                        savedUrl.appendChild(savedRepoNo);
                         showContainer.appendChild(savedUrl);
 
-                        data.push(theInput.value);
-
-                        data = JSON.stringify(data);
-
-                        window.localStorage.setItem("github-repo", data);
+                        savedRepo.push({
+                            name: theInput.value,
+                            no: data.length,
+                        });
                     }
+                    savedRepo = JSON.stringify(savedRepo);
+
+                    window.localStorage.setItem("github-repo", savedRepo);
                 }
             })
             .finally(() => {
@@ -137,13 +148,20 @@ function setData() {
 
     data.forEach((repo) => {
         let savedUrl = document.createElement("span");
+        let savedRepoNo = document.createElement("span");
 
         savedUrl.classList.add("saved-repo");
+        savedRepoNo.classList.add("saved-repo-no");
 
-        let textSavedUrl = document.createTextNode(repo);
+        savedUrl.setAttribute("name", repo.name);
+
+        let textSavedUrl = document.createTextNode(repo.name);
+        let textSavedRepoNo = document.createTextNode(repo.no);
 
         savedUrl.appendChild(textSavedUrl);
+        savedRepoNo.appendChild(textSavedRepoNo);
 
+        savedUrl.appendChild(savedRepoNo);
         showContainer.appendChild(savedUrl);
     });
 }
