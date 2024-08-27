@@ -26,7 +26,11 @@ document.addEventListener("click", (e) => {
 function getRepos() {
     if (theInput.value == "") {
         reposData.innerHTML = `<span>Please Write Github Username.</span>`;
+    } else if (getButton.classList.contains("loading")) {
+        reposData.innerHTML = `<span>Please wait a seconds.</span>`;
     } else {
+        getButton.innerHTML = "Loading...";
+        getButton.classList.add("loading");
         fetch(`https://api.github.com/users/${theInput.value}/repos`)
             .then((reponse) => reponse.json())
 
@@ -116,6 +120,10 @@ function getRepos() {
                         window.localStorage.setItem("github-repo", data);
                     }
                 }
+            })
+            .finally(() => {
+                getButton.innerHTML = "Get Repos";
+                getButton.classList.remove("loading");
             });
     }
 }
